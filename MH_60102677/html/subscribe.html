@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<!-- Mujtaba Shahid
+60102677
+24th FEB, 2023 -->
+<html>
+<head>
+   <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mujii's HUB</title>
+	<link rel="shortcut icon" type="image/x-icon" href="../img/plane.png">
+   <link rel="stylesheet" type="text/css" href="../css/layout.css">
+   <link rel="stylesheet" type="text/css" href="../css/styles.css">
+   <link rel="stylesheet" type="text/css" href="../css/reset.css">
+   <img src="../img/main.png">
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+   <script type="text/javascript" >
+
+      function validateForm(){
+         // validates all the forms and sends to the server after success
+         var validUser = validateUser("userName");
+         var validPass = validatePass("regPassword");
+         var validConPass = validateConfirmPass();
+         var validsName = validateName("fullname");
+         var validsName = validateName("fullName");
+         var validEmail = validateEmail();
+         var validEmail = validateEmail();
+         var validAge = validateAge();
+         var calcDOB = calculateAge();
+         var validContact = validateContact();
+         var validContact = validateContact();
+         var validCardNo = validateCardNo();
+         var validExpiry = validateExpiry();
+         var validCVV = validateCVV();
+         var validAddress = validateAddress();
+
+         var validName;
+         if(validUser && validPass && validConPass && 
+            validsName && validateEmail && validAge && 
+            calcDOB && validContact && validCardNo && 
+            validExpiry && validCVV && validAddress){
+            validName = true;
+         }else{
+            validName = false;
+         }
+         return validName
+      }
+
+      // Subscribe Forms
+
+      //validation of username
+      function validateUser(username) {
+         var user = document.getElementById(username);
+         let validUser
+
+         if (user.value == "") {
+            user.placeholder = 'Enter Username!';
+            user.style.color = 'red';
+            user.style.border = '3px solid red'
+            validUser = false;
+         }else{
+            user.placeholder = 'Username';
+            user.style.color = 'black';
+            user.style.border = 'black';
+            validUser = true;
+         }
+         return validUser
+      }
+
+      // validation of passwords
+      function validatePass(password) {
+         var password = document.getElementById(password);
+         var invalidPass = document.getElementById("invalidPass");
+         var invalid = document.getElementById("invalid");
+
+         let validPass;
+         const specialChars = ["@", "$", "#", "!"]; // list of special characters to check for
+         let hasLetter = false;
+         let hasNumber = false;
+         let hasSpecialChar = false;
+
+         if (password.value == "") {
+            password.placeholder = "Enter Password!";
+            password.style.border = "3px solid red";
+            password.style.color = "red";
+            validPass = false;
+         } else if (password.value.length < 8) {
+            invalidPass.innerHTML = "Should be at least 8 characters long!";
+            invalid.innerHTML = "Should be at least 8 characters long!";
+            invalidPass.style.color = "red";
+            invalid.style.color = "red";
+            password.style.color = "red";
+            password.style.border = "3px solid red";
+            validPass = false;
+         } else {
+          // Check for at least one letter, one number, and one special character
+            for (let i = 0; i < password.value.length; i++) {
+               const char = password.value.charAt(i);
+               if (isNaN(char)) {
+                  hasLetter = true;
+                  if (specialChars.includes(char)) {
+                     hasSpecialChar = true;
+                  }
+               } else {
+                  hasNumber = true;
+               }
+            } // checks if the password has at least 1 alphabet, 1 number and 1 special character
+            if (!(hasLetter && hasNumber && hasSpecialChar)) {
+               invalidPass.innerHTML = "Must contain at least one letter, one number, and one special character (@,$,#,!)";
+               invalid.innerHTML = "Must contain at least one letter, one number, and one special character (@,$,#,!)";
+               invalidPass.style.color = "red";
+               invalid.style.color = "red";
+               password.style.color = "red";
+               password.style.border = "3px solid red";
+               validPass = false;
+            } else {
+               password.style.color = "black";
+               password.style.border = "";
+               invalidPass.innerHTML = "";
+               invalid.innerHTML = "";
+               validPass = true;
+            }
+         }
+         return validPass;
+      }
+
+      // validation to confirm the password
+      function validateConfirmPass() {
+         var cPassword = document.getElementById("cPassword");
+         var password = document.getElementById("regPassword");
+         var noMatch = document.getElementById("noMatch");
+         let validPass;
+
+         if (password.value != cPassword.value || password.value == ""){
+            cPassword.placeholder = "Password doesn't match!";
+            cPassword.style.border="3px solid red";
+            cPassword.style.color="red";
+            validPass = false;
+         }else{
+            cPassword.placeholder = "Confirm password";
+            cPassword.style.border="";
+            cPassword.style.color="";
+            validPass=true;
+         }
+         return validPass;
+      }
+
+      // function to show the password as text
+      function showPassword(){
+         var password = document.getElementById("password");
+         var regPassword = document.getElementById("regPassword");
+         var check = document.getElementById("check");
+         var regCheck = document.getElementById("regCheck");
+
+         if (check.checked){
+            password.type = "text";
+
+         }else if (regCheck.checked) {
+            regPassword.type = "text";
+
+         }else{
+            password.type = "password";
+            regPassword.type = "password";
+         }
+      }
+
+      // validation of full names
+      function validateName(name) {
+         var fullname = document.getElementById(name);
+         var invalidFullName = document.getElementById("invalidFullName"); 
+
+         const lettersOnly = /^[a-zA-Z ]+$/;  // Regular expression to match only letters
+         let validName;
+         if (fullname.value == ""){
+            fullname.placeholder="Enter full name!";
+            fullname.style.border = "3px solid red";
+            invalidFullName.innerHTML = "";
+            validName = false;
+
+         } else if (!fullname.value.match(lettersOnly)) {
+            // checks if the name contains only alphabets or not
+            fullname.style.border = "3px solid red";
+            invalidFullName.innerHTML = "Alphabets only!";
+            invalidFullName.style.color = "red";
+            return false;
+
+         }else{
+            fullname.placeholder="Full name";
+            fullname.style.border = "";
+            invalidFullName.innerHTML = "";
+            invalidFullName.style.color = "";
+            validName = true;
+         }
+         return validName;
+      }
+
+      // validation of emails
+      function validateEmail(){
+         var email = document.getElementById("email");
+         var cEmail = document.getElementById("cEmail");
+         var invalidEmail = document.getElementById("invalidEmail");
+         let validEmail;
+         if (email.value == ""){
+            email.placeholder='Enter email address!';
+            email.style.color='red';
+            email.style.border='3px solid red';
+            validEmail=false;
+         }else if(email.value.substr(-4)!=".com" || !(email.value.includes("@")) || email.value.substr(0,3).includes("@")){
+            // checks if the email contains @ and .com
+            invalidEmail.innerHTML='Enter valid email address!';
+            invalidEmail.style.color='red';
+            email.style.border='3px solid red';
+            validEmail=false;
+         }else{
+            email.style.color='black';
+            email.style.border='black';
+            invalidEmail.innerHTML='';
+            validEmail=true;
+         }
+
+         // checks if confirm email == email
+         if (email.value != cEmail.value || email.value == ""){
+            cEmail.placeholder = "Email do not match!";
+            cEmail.style.border="3px solid red";
+            cEmail.style.color="red";
+            validEmail = false;
+         }else{
+            cEmail.placeholder = "Confirm email";
+            cEmail.style.border="";
+            cEmail.style.color="";
+            validEmail=true;
+         }
+
+         return validEmail;
+      }
+
+      // calculates the age from the given D.O.B. and displays it in age input field
+      function calculateAge(){
+         let dateOfBirth = document.getElementById("birthday").value;
+         let age = document.getElementById('age');
+         let invalidDOB = document.getElementById("invalidDOB");
+
+         // Parse the date of birth string into a Date object
+         const dob = new Date(dateOfBirth);
+
+         // Get the current date
+         const now = new Date();
+
+         // Calculate the difference in milliseconds between the two dates
+         const diffMs = now - dob;
+
+         // Convert the difference to years
+         const result = Math.floor(diffMs / 31536000000); // 31536000000 is the number of milliseconds in a year
+         age.value = result;  // Output the age to the user
+
+         validateAge(); //automatically trigger the validation of the age
+      }
+
+      // validation of user age
+      function validateAge(){
+         let age = document.getElementById('age');
+         let invalidAge = document.getElementById("invalidAge");
+         if (age.value == "") {
+            age.placeholder = "Enter D.O.B.!"
+            age.style.border = "3px solid red";
+            invalidAge.innerHTML = "";
+            return false;
+         } else if (age.value < 18){
+            invalidAge.innerHTML = "Under 18!"
+            invalidAge.style.color = "red";
+            age.style.border = "3px solid red";
+            return false;
+
+         }else if(age.value >= 100){
+            invalidAge.innerHTML = "Invalid Age!"
+            invalidAge.style.color = "red";
+            age.style.border = "3px solid red";
+
+         }else{
+            age.placeholder = "Your age";
+            invalidAge.innerHTML = "";
+            invalidAge.style.color = "";
+            age.style.border = "";
+            return true;
+         }
+      }
+
+      // validation of Contact number
+      function validateContact(){
+         let contact = document.getElementById("contact");
+         let invalidContact = document.getElementById("invalidContact");
+
+         const numbersOnly = /^[0-9+]+$/;  // Regular expression to match only numbers
+         if (contact.value == ""){
+            contact.style.border = "3px solid red";
+            invalidContact.innerHTML = "Phone number required!"
+            invalidContact.style.color = "red";
+            return false;
+
+         } else if (!contact.value.match(numbersOnly)) {
+            // checks if it contains only numbers
+            contact.style.border = "3px solid red";
+            invalidContact.innerHTML = "Enter number with Country code!";
+            invalidContact.style.color = "red";
+            return false;
+
+         } else if (contact.value.length != 12) {
+            // checks if the length of number is 12 digits
+            contact.style.border = "3px solid red";
+            invalidContact.innerHTML = "Enter #12 digits!"
+            invalidContact.style.color = "red";
+            return false;
+
+         }else{
+            invalidContact.innerHTML = "";
+            invalidContact.style.color = "";
+            contact.style.border = "";
+            return true;
+         }
+      }
+
+      // validation of card number
+      function validateCardNo() {
+         var cardNo = document.getElementById("CardNo");
+
+         var cardNoPattern = /^\d{16}$/;  // pattern for 16 digits only
+
+         if (cardNo.value == "") {
+            cardNo.placeholder = "16 digit Card# required!";
+            cardNo.style.border = "3px solid red";
+            cardNo.style.color = "red";
+            return false;
+
+         }else if (!cardNoPattern.test(cardNo.value)) {
+            cardNo.style.border = "3px solid red";
+            cardNo.style.color = "red";
+            return false;
+
+         }else{
+            cardNo.placeholder = "6969-xxxx-0007-xxxx";
+            cardNo.style.color = "";
+            cardNo.style.border = "";
+            return true;
+         }
+      }
+
+      // validation of expiry date
+      function validateExpiry() {
+         var expiry = document.getElementById("Expiry");
+         if (expiry.value == "") {
+            expiry.style.border = "3px solid red";
+            expiry.style.color = "red";
+            return false;
+         }else{
+            expiry.style.color = "";
+            expiry.style.border = "";
+            return true;
+         }
+      }
+
+      // validation Card security code
+      function validateCVV() {
+         var cvv = document.getElementById("CVV");
+
+         const numbersOnly = /^[0-9]{3}$/; // Regular expression to match only 3-digit numbers
+         if (cvv.value == "") {
+            cvv.style.border = "3px solid red";
+            cvv.style.color = "red";
+            return false;
+
+         } else if (!cvv.value.match(numbersOnly)) {
+            cvv.style.border = "3px solid red";
+            cvv.style.color = "red";
+            return false;
+
+         }else{
+            cvv.style.color = "";
+            cvv.style.border = "";
+            return true;
+         }
+      }
+
+      // validation of address
+      function validateAddress(){
+         let address = document.getElementById("Address");
+
+         if (address.value < 1 || address.value > 666) {
+            address.placeholder = "Zone# - Street# - Building#(1-666)";
+            address.style.border = "3px solid red";
+            address.style.color = "red";
+            return false;
+         }else{
+            address.placeholder = "Zone# - Street# - Building#";
+            address.style.border = "";
+            address.style.color = "";
+            return true;
+         }
+      }
+
+   </script>
+
+   <script type="text/javascript" src="../js/scripts.js"></script>
+</head>
+
+<body>
+   <section class="horizontalNav">
+      <nav>
+         <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="fleets.html">Fleets</a></li>
+            <li><a href="hangars.html">Hangars</a></li>
+            <li><a href="shop.html">Pilot Shop</a></li>
+            <li><a href="subscribe.html">Subscribe</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+         </ul>
+      </nav>
+   </section>
+
+   <section class="forms">
+      <div class="logIn">
+         <form action="https://sit.cna-qatar.edu.qa/processform.php" method="POST" >
+           <legend>Login Here</legend>
+
+           <label for="username">Username</label>
+           <input type="text" placeholder="Username" name="User Name" id="username">
+
+           <label for="password">Password</label>
+           <div class="adjust">
+            <input type="password" placeholder="Password" name="Password" id="password" >
+            <input type="checkbox" name="check" id="check" onclick="showPassword()">
+           </div>     
+           
+
+           <div class="lsf">
+            <button>Log In</button>
+            <button type="reset" name="reset">Cancel</button>
+            <button>Sign Up</button>
+            <button id="forgot">Forgot password?</button> 
+           </div>
+           
+
+           <div class="separator">
+              <hr class="line">
+              <span>Or</span>
+              <hr class="line">
+           </div>
+
+           <button formaction="https://accounts.google.com" formmethod="POST"><i class="fab fa-google"></i>  Sign In with Google</button>
+           <button formaction="https://appleid.apple.com/sign-in" formmethod="POST"><i class="fab fa-apple" id="apple"></i><span>  Sign In with Apple</span></button>
+
+           <p class="note">Terms of use &amp; Conditions</p>
+         </form>
+      </div>
+
+      <div class="register">
+         <form action="https://sit.cna-qatar.edu.qa/processform.php" method="POST" onsubmit="return validateForm()">
+            <legend>Register Here</legend>
+
+            <div>
+               <label for="fullname">Full name</label>
+               <input type="text" placeholder="Full name" name="Full Name" id="fullname" onblur="validateName('fullname')"> 
+               <span id="invalidFullName"></span>
+            </div>
+            
+            <div>
+               <label for="username">Username</label>
+               <input type="text" placeholder="Username" name="User Name" id="userName" onblur="validateUser('userName')">
+            </div>
+            
+            <div>
+               <label for="email">Email</label>
+               <input type="text" placeholder="@mujiishub.com" name="Email" id="email" onblur="validateEmail()">
+               <p id="invalidEmail"></p>
+            </div>
+            
+            <div>
+               <label for="email">Confirm email</label>
+               <input type="text" placeholder="Confirm email" name="Confrim Email" id="cEmail" onblur="validateEmail()">
+               <p id="noMatchEmail"></p>
+            </div>
+            
+            <div >
+               <label for="password">Password</label>
+               <input type="password" placeholder="Password" name="Password" id="regPassword" onblur="validatePass('regPassword')">
+               <input type="checkbox" name="check" id="regCheck" style="width:15px" onclick="showPassword()">
+               <p id="invalid"></p>
+            </div>
+            
+            <div>
+               <label for="password">Confirm password</label>
+               <input type="password" placeholder="Confirm password" name="Confirm Password" id="cPassword" onblur="validateConfirmPass()">
+               <p id="noMatch"></p>
+            </div>
+            
+            <div>
+               <label for="birthday">D.O.B</label>
+               <input type="date" placeholder="Date of Birth" name="Birthday" id="birthday" onblur="calculateAge()">
+               <span id="invalidDOB"></span>
+            </div>
+            
+            <div>
+               <label for="age">Age</label>
+               <input type="number" placeholder="Your age" name="Age" id="age" min="18" max="99" onblur="validateAge()">
+               <span id="invalidAge"></span>
+            </div>
+            
+            <div>
+               <label for="contact">Contact</label>
+               <input type="tel" name="Contact" id="contact" value="+974" onblur="validateContact()">
+               <span id="invalidContact"></span>
+            </div>
+
+            <div class="letter">
+               <h1>Subscribe to our news letter</h1>
+               <div class="toggle">
+                  <input type="checkbox" name="News" id="news" class="news" value="true">
+                  <label for="news" class="switch">
+                     <span class="slider"></span>
+                  </label>
+               </div>
+            </div>
+
+            <div class="cardInfo">
+               <h1>Billing Information</h1>
+
+               <div class="billingInfo">
+                  <img src="../img/apple.png" alt="Card Chip" id="apple">
+                  <h1>M A S T E R C A R D</h1>
+                  <img src="../img/chip.png" alt="Card Chip" id="chip">
+                  <img src="../img/wireless.png" alt="Contactless" id="wireless" align="right">
+                  <img src="../img/mc.png" alt="Master Card" id="mc">
+
+                  <div id="cardNo">
+                     <label for="cardNo">Card Number</label>
+                     <input type="number" placeholder="6969-xxxx-0007-xxxx" name="Card No" id="CardNo" onblur="validateCardNo()">
+                     <span id="invalidCardNo"></span>
+                  </div>
+
+                  <div id="address">
+                     <label for="address">Billing address</label>
+                     <input type="text" placeholder="Zone# - Street# - Building#" name="Address" id="Address" onblur="validateAddress()">
+                     <span id="invalidAddress"></span>
+                  </div>
+
+                  <div id="expiry">
+                     <label for="expiry">Valid Thru</label>
+                     <input type="date" placeholder="11/2023" name="Expiry" id="Expiry" onblur="validateExpiry()">
+                  </div>
+               
+                  <div id="cvv">
+                     <label for="cvv">CVV</label>
+                     <input type="password" placeholder="CVV" name="CVV" id="CVV" onblur="validateCVV()">
+                  </div>
+                  
+                  <div id="city">
+                     <label for="city">City:</label>
+                        <select id="city" name="City">
+                           <option value="Select">Select</option>
+                           <option value="Doha" selected>Doha</option>
+                           <option value="Al Wakrah">Al Wakrah</option>
+                           <option value="Al Wukair">Al Wukair</option>
+                           <option value="Al Rayyan">Al Rayyan</option>
+                           <option value="Shamal" >Shamal</option>
+                           <option value="Muither" >Muither</option>
+                           <option value="Al Khor" >Al Khor</option>
+                           <option value="Ruwais">Ruwais</option>
+                        </select>
+                  </div>
+
+                  <div id="holderName">
+                     <label for="fullname">Card Holder Name</label>
+                     <input type="text" placeholder="Card Holder Name" name="Holder Name" id="fullName" onblur="validateName('fullName')">
+                  </div>
+               </div>
+            </div>
+            <button type="reset" name="reset" onclick="">CANCEL</button>
+            <button>SUBMIT</button>
+         </form>  
+      </div>
+   </section>
+
+   <footer>
+      <h1 id="rights"> &copy; ALL RIGHTS RESERVED</h1>
+      <section class="col1">
+         <img src="../img/logo2.png">
+         <img id="fIcons" src="../img/icons/fb.png" alt="Facebook" />
+         <img id="fIcons" src="../img/icons/tw.png" alt="Twitter" />
+         <img id="fIcons" src="../img/icons/yt.png" alt="YouTube" />
+         <img id="fIcons" src="../img/icons/in.png" alt="Instagram" />
+         <p>The content of this website (graphics, text and any and all other elements) is &copy;Copyright 2023 by Mujii's HUB, Inc., and may not be reprinted or retransmitted in whole or part without the expressed written consent of Mujii's HUB, Inc.</p>
+      </section>
+      
+      <nav class="col2">
+         <h1>Sales/Rentals</h1>
+         <ul>
+            <li><a href="fleets.html">Fleets</a></li>
+            <li><a href="hangars.html">Hangars</a></li>
+            <li><a href="shop.html">Pilot Shop</a></li>
+         </ul>
+      </nav>
+
+      <nav class="col3">
+         <h1>Service & Support</h1>
+         <ul>
+            <li><a href="subscribe.html">My Profile</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+         </ul>
+      </nav>
+
+      <form action="https://sit.cna-qatar.edu.qa/processform.php" method="POST">
+         <h3>Got any suggestions/review/complain?</h3>
+         <textarea name="Review" placeholder="Feel free to leave your comments here." ></textarea>
+         <br>
+         <button type="reset" name="reset">CANCEL</button>
+         <button> SUBMIT </button>
+      </form>
+   </footer>
+</body>
+</html>

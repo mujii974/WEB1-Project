@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!-- Mujtaba Shahid
+60102677
+24th FEB, 2023 -->
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mujii's HUB</title>
+	<link rel="shortcut icon" type="image/x-icon" href="../img/plane.png">
+	<link rel="stylesheet" type="text/css" href="../css/layout.css">
+   <link rel="stylesheet" type="text/css" href="../css/styles.css">
+   <link rel="stylesheet" type="text/css" href="../css/reset.css">
+   <img src="../img/main.png">
+
+   <script type="text/javascript">
+      function validateForm(){
+         // validates all the forms and sends to the server after success
+         var validsName = validateName();
+         var validEmail = validateEmail();
+         var validContact = validateContact();
+         var choosePreference = changePreference();
+         var validComment = validateComment();
+
+         var validName;
+         if(validsName && validateEmail && validContact 
+            && choosePreference && validComment){
+            validName = true;
+         }else{
+            validName = false;
+         }
+         return validName;
+      }
+
+      // validation of full names
+      function validateName() {
+         var fullname = document.getElementById("fullname");
+         var invalidFullName = document.getElementById("invalidFullName"); 
+
+         const lettersOnly = /^[a-zA-Z ]+$/;  // Regular expression to match only letters
+         let validName;
+         if (fullname.value == ""){
+            fullname.placeholder="Enter full name!";
+            fullname.style.border = "3px solid red";
+            invalidFullName.innerHTML = "";
+            validName = false;
+
+         } else if (!fullname.value.match(lettersOnly)) {
+            // checks if the name contains only alphabets or not
+            fullname.style.border = "3px solid red";
+            invalidFullName.innerHTML = "Alphabets only!";
+            invalidFullName.style.color = "red";
+            return false;
+
+         }else{
+            fullname.placeholder="Full name";
+            fullname.style.border = "";
+            invalidFullName.innerHTML = "";
+            invalidFullName.style.color = "";
+            validName = true;
+         }
+         return validName;
+      }
+
+      // validation of emails
+      function validateEmail(){
+         var email = document.getElementById("email");
+         var invalidEmail = document.getElementById("invalidEmail");
+         let validEmail;
+         if (email.value == ""){
+            email.placeholder='Enter email address!';
+            email.style.color='red';
+            email.style.border='3px solid red';
+            validEmail=false;
+         }else if(email.value.substr(-4)!=".com" || !(email.value.includes("@")) || email.value.substr(0,3).includes("@")){
+            // checks if the email contains @ and .com
+            invalidEmail.innerHTML='Enter valid email address!';
+            invalidEmail.style.color='red';
+            email.style.border='3px solid red';
+            validEmail=false;
+         }else{
+            email.style.color='black';
+            email.style.border='black';
+            invalidEmail.innerHTML='';
+            validEmail=true;
+         }
+         return validEmail;
+      }
+
+      // validation of Contact number
+      function validateContact(){
+         let contact = document.getElementById("contact");
+         let invalidContact = document.getElementById("invalidContact");
+
+         const numbersOnly = /^[0-9+]+$/;  // Regular expression to match only numbers
+         if (contact.value == ""){
+            contact.style.border = "3px solid red";
+            invalidContact.innerHTML = "Phone number required!"
+            invalidContact.style.color = "red";
+            return false;
+
+         } else if (!contact.value.match(numbersOnly)) {
+            // checks if it contains only numbers
+            contact.style.border = "3px solid red";
+            invalidContact.innerHTML = "Enter number with Country code!";
+            invalidContact.style.color = "red";
+            return false;
+
+         } else if (contact.value.length != 12) {
+            // checks if the length of number is 12 digits
+            contact.style.border = "3px solid red";
+            invalidContact.innerHTML = "Enter #12 digits!"
+            invalidContact.style.color = "red";
+            return false;
+
+         }else{
+            invalidContact.innerHTML = "";
+            invalidContact.style.color = "";
+            contact.style.border = "";
+            return true;
+         }
+      }
+
+      // validation of radio buttons if checked
+      function changePreference() {
+         var mail = document.getElementById("mail");
+         var phone = document.getElementById('phone');
+         var preference = document.getElementById('preference');
+
+         if (phone.checked || mail.checked){
+            preference.innerHTML = ""
+            preference.style.color = "";
+            return true;
+         }else{
+            preference.innerHTML = "please select a preference!"
+            preference.style.color = "red";
+            return false;
+         }
+      }
+
+      // checks if text area is empty 
+      function validateComment() {
+         let comment = document.getElementById("comment");
+         let invalidComment = document.getElementById("invalidComment");
+
+         if (comment.value == ""){
+            comment.style.border = "3px solid red";
+            comment.placeholder = "Please leave a comment!";
+            comment.style.color = "red";
+            return false;
+         }else{
+            comment.style.border = "";
+            comment.placeholder = "Feel free to leave your comments here.";
+            comment.style.color = "";
+            return true;
+         }
+      }
+
+      // resets all form validations and removes the error messages
+      function resetForm() {
+         document.getElementById("fullname").value = "";
+         document.getElementById("fullname").placeholder = "Full name";
+         document.getElementById("fullname").style.border = "";
+         document.getElementById("invalidFullName").innerHTML = "";
+
+         document.getElementById("email").value = "";
+         document.getElementById("email").placeholder = "Email address";
+         document.getElementById("email").style.border = "";
+         document.getElementById("invalidEmail").innerHTML = "";
+
+         document.getElementById("contact").value = "";
+         document.getElementById("contact").placeholder = "Phone number";
+         document.getElementById("contact").style.border = "";
+         document.getElementById("invalidContact").innerHTML = "";
+
+         document.getElementById("mail").checked = false;
+         document.getElementById("phone").checked = false;
+         document.getElementById("preference").style.border = "";
+         document.getElementById("preference").innerHTML = "";
+
+         document.getElementById("invalidComment").innerHTML = "";
+         document.getElementById("comment").value = "";
+         document.getElementById("comment").style.border = "";
+         document.getElementById("comment").placeholder = "Feel free to leave your comments here.";
+      }
+
+   </script>
+</head>
+
+<body>  
+   <section class="horizontalNav">
+      <nav>
+         <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="fleets.html">Fleets</a></li>
+            <li><a href="hangars.html">Hangars</a></li>
+            <li><a href="shop.html">Pilot Shop</a></li>
+            <li><a href="subscribe.html">Subscribe</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+         </ul>
+      </nav>
+   </section>
+
+   <section class="location">
+   		<section class="details">
+   			<h1>CORPORATE HEADQUARTERS</h1>
+
+   			<div>
+   				<h3>Headquarters</h3>
+   				<h6>Mujii's HUB</h6>
+   				<p>
+   					69696 Marina Twin Towers B<br>
+   					Lusail 303, Qatar
+   				</p>
+   			</div>
+
+   			<div>
+   				<h3>Contact</h3>
+   				<p>Domestic 4444 6969<br>
+   					International +974 - 4444 4007
+   				</p>
+   			</div>
+
+   			<div>
+   				<h3>Hours of Operation</h3>
+   				<p>Sunday-Thursday 7:00AM-3:00PM GMT+3</p>
+   			</div>
+
+   			<div>
+   				<h3>Customer Service</h3>
+   				<p>
+   					Domestic 4444 1010<br>
+   					International +974 - 4440 0769<br>
+   					Email customerservice@mujiishub.com
+   				</p>
+   			</div>
+
+   			<div class="maps">
+   				<h3>Location</h3>
+   				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d40784.44841625895!2d51.48350626722983!3d25.37567287524067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e45c34d1e74d62b%3A0x3936e796a7d7dc86!2sMarina%20Twin%20Towers%20B!5e0!3m2!1sen!2sqa!4v1677969518713!5m2!1sen!2sqa" width="550" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+   			</div>
+   		</section>
+   </section>
+
+   <section class="dm">
+   		<p><b>Fill out this form</b> and a Mujii's HUB representative will reach out to you soon. Your information is private and used exclusively for Mujii's HUB to contact you. It will not be shared in any way.</p>
+
+   		<div class="dmForm">
+   			<form action="https://sit.cna-qatar.edu.qa/processform.php" method="POST" id="dmForm" onsubmit="return validateForm()">
+   				<div>
+               		<label for="fullname">Full name</label>
+               		<input type="text" placeholder="Full name" name="Full Name" id="fullname" onblur="validateName()">
+                     <span id="invalidFullName"></span>
+            	</div>
+
+            	<div>
+               		<label for="email">Email</label>
+               		<input type="text" placeholder="Email" name="Email" id="email" onblur="validateEmail()">
+                     <p id="invalidEmail"></p>
+            	</div>
+
+            	<div>
+               		<label for="contact">Contact</label>
+               		<input type="tel" placeholder="Contact Number" name="Contact" id="contact" value="+974" onblur="validateContact()">
+                     <span id="invalidContact"></span>
+            	</div>
+
+            	<div class="method">
+            		<label>Preferred method of contact?</label>
+            		<div>
+            			<label for="mail">Email</label>
+            			<input type="radio" name="method" id="mail" value="Email"  onclick="changePreference()"/>
+            		</div>
+            		<div>
+            			<label for="phone">Phone</label>
+            			<input type="radio" name="method" id="phone" value="Phone" onclick="changePreference()"/>
+            		</div>
+                  <span id="preference"></span>
+            	</div>
+
+            	<div>
+               	<label for="comment">Comment</label>
+               	<textarea name="comment" id="comment" placeholder="Feel free to leave your comments here." style="width:370px" onblur="validateComment()"></textarea>
+                  <span id="invalidComment"></span>
+            	</div>
+
+            	<div class="lsf">
+            		<button type="reset" name="reset" onclick="resetForm()">CANCEL</button>
+            		<button type="SUBMIT">SUBMIT</button>
+           		</div>
+   			</form>
+   		</div>
+   	</section>
+
+   <footer>
+      <h1 id="rights"> &copy; ALL RIGHTS RESERVED</h1>
+      <section class="col1">
+         <img src="../img/logo2.png">
+         <img id="fIcons" src="../img/icons/fb.png" alt="Facebook" />
+         <img id="fIcons" src="../img/icons/tw.png" alt="Twitter" />
+         <img id="fIcons" src="../img/icons/yt.png" alt="YouTube" />
+         <img id="fIcons" src="../img/icons/in.png" alt="Instagram" />
+         <p>The content of this website (graphics, text and any and all other elements) is &copy;Copyright 2023 by Mujii's HUB, Inc., and may not be reprinted or retransmitted in whole or part without the expressed written consent of Mujii's HUB, Inc.</p>
+      </section>
+      
+      <nav class="col2">
+         <h1>Sales/Rentals</h1>
+         <ul>
+            <li><a href="fleets.html">Fleets</a></li>
+            <li><a href="hangars.html">Hangars</a></li>
+            <li><a href="shop.html">Pilot Shop</a></li>
+         </ul>
+      </nav>
+
+      <nav class="col3">
+         <h1>Service & Support</h1>
+         <ul>
+            <li><a href="subscribe.html">My Profile</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+         </ul>
+      </nav>
+
+      <form action="https://sit.cna-qatar.edu.qa/processform.php" method="POST">
+         <h3>Got any suggestions/review/complain?</h3>
+         <textarea name="Review" placeholder="Feel free to leave your comments here." required></textarea>
+         <br>
+         <button type="reset" name="reset">CANCEL</button>
+         <button> SUBMIT </button>
+      </form>
+   </footer>
+</body>
+</html>

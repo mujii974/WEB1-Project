@@ -1,0 +1,32 @@
+@charset="utf-8";
+/*Mujtaba Shahid
+60102677
+24th FEB, 2023*/
+/*
+   The purpose of this reset sheet is to override/cancel 
+   some of the default browser styles that may creep 
+   into the final design of the web page due to inheritance
+   and precedence as this makes it harder to control the layout.
+*/
+
+*{
+   margin: 0px;
+   padding: 0px;
+   font-size: 100%;
+   line-height: 1;
+   box-sizing: border-box;
+}
+
+/*
+   It's customary to remove the underlining of links nowadays.
+*/
+nav ul a{
+   text-decoration: none;
+}
+
+/*
+   and remove the bullet point symbols of navigational lists.
+*/
+nav ul{
+   list-style-type: none;
+}
